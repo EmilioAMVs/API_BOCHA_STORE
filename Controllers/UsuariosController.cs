@@ -42,5 +42,13 @@ namespace API_ProyectoP1_Gimnasio_ProgramacionIV.Controllers
 
             return Ok(usuario);
         }
+        // GET api/<UsuarioController>/5
+        [HttpGet("{idUsuario}")]
+        public async Task<IActionResult> Get(int idUsuario)
+        {
+            Usuario usuarioFounded = await _dbContext.Usuarios.FirstOrDefaultAsync(data => data.idUsuario == idUsuario);
+
+            return usuarioFounded == null ? BadRequest() : Ok(usuarioFounded);
+        }
     }
 }
