@@ -50,5 +50,20 @@ namespace API_ProyectoP1_Gimnasio_ProgramacionIV.Controllers
 
             return usuarioFounded == null ? BadRequest() : Ok(usuarioFounded);
         }
+        // GET: api/LoginUser/admin/123
+        [HttpGet("{userName}/{password}")]
+        public async Task<ActionResult<Usuario>> LoginUser(string userName, string password)
+        {
+            if (_dbContext.Usuarios == null)
+            {
+                return NotFound();
+            }
+            var userInfo = _dbContext.Usuarios.Where(u => u.username == userName && u.password == password);
+            if (userInfo == null)
+            {
+                return NotFound();
+            }
+            return Ok(userInfo);
+        }
     }
 }
