@@ -16,31 +16,25 @@ namespace API_BOCHA_STORE.Controllers
 
         public ProductoController(ApplicationDBContext dbContext)
         {
-            // Inyección de dependencias, inyecto la dependencia de la DB
             _dbContext = dbContext;
-
         }
 
-        // GET: api/<MiembroController>
+        // GET: api/<ProductoController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
+            List<Producto> productos = await _dbContext.Producto.ToListAsync();
 
-            List<Producto> miembros = await _dbContext.Producto.ToListAsync();
-
-            return Ok(miembros);
-
+            return Ok(productos);
         }
 
-        // GET api/<MiembroController>/5
-        [HttpGet("{idMiembro}")]
-        public async Task<IActionResult> Get(int idMiembro)
+        // GET api/<ProductoController>/5
+        [HttpGet("{idProducto}")]
+        public async Task<IActionResult> Get(int idProducto)
         {
+            Producto productoFounded = await _dbContext.Producto.FirstOrDefaultAsync( data => data.idProducto == idProducto);
 
-            Producto miembroFounded = await _dbContext.Producto.FirstOrDefaultAsync( data => data.idProducto == idMiembro);
-
-            return miembroFounded == null ? BadRequest() : Ok(miembroFounded);
-
+            return productoFounded == null ? BadRequest() : Ok(productoFounded);
         }
 
         // POST api/<ProductoController>
@@ -48,21 +42,17 @@ namespace API_BOCHA_STORE.Controllers
         public async Task<IActionResult> Post([FromBody] Producto newProducto)
         {
 
-            // En caso de que el framework no valide que ya exista un ID que ya existe debemos validar nosotros
             Producto productoFounded = await _dbContext.Producto.FirstOrDefaultAsync(x => x.idProducto == newProducto.idProducto);
 
             if (newProducto == null || productoFounded != null)
             {
-
-                return BadRequest("El nuevo producto tiene errores o ya existe el producto a registrar!");
-
+                return BadRequest("El nuevo producto tiene errores o ya existe el producto a registrar");
             }
 
             await _dbContext.Producto.AddAsync(newProducto);
             await _dbContext.SaveChangesAsync();
 
             return Ok(newProducto);
-
         }
 
         // PUT api/<ProductoController>/5
@@ -74,13 +64,12 @@ namespace API_BOCHA_STORE.Controllers
 
             if (newProducto== null || productoToReplace == null)
             {
-
-                return BadRequest("El nuevo producto tiene errores o no existe el producto a reemplazar!");
-
+                return BadRequest("El nuevo producto tiene errores o no existe el producto a reemplazar");
             }
 
             productoToReplace.nombreProducto= newProducto.nombreProducto== null ? productoToReplace.nombreProducto: newProducto.nombreProducto;
             productoToReplace.idProovedor = newProducto.idProovedor == null ? productoToReplace.idProovedor : newProducto.idProovedor; ;
+            productoToReplace.idMarca=newProducto.idMarca == null ? productoToReplace.idMarca : newProducto.idMarca;
             productoToReplace.descripcionProducto= newProducto.descripcionProducto== null ? productoToReplace.descripcionProducto: newProducto.descripcionProducto;
             productoToReplace.precio = newProducto.precio == null ? productoToReplace.precio : newProducto.precio;
             productoToReplace.stock = newProducto.stock == null ? productoToReplace.stock : newProducto.stock;  
@@ -89,7 +78,6 @@ namespace API_BOCHA_STORE.Controllers
             await _dbContext.SaveChangesAsync();
 
             return Ok(productoToReplace);
-
         }
 
         // DELETE api/<ProductoController>/5
@@ -100,18 +88,15 @@ namespace API_BOCHA_STORE.Controllers
             Producto productoToDelete = await _dbContext.Producto.FirstOrDefaultAsync( data => data.idProducto== idProductoToDelete);
 
             if (productoToDelete == null ) 
-            { 
-            
+            {             
                 return BadRequest();
-
             }
 
             _dbContext.Remove(productoToDelete);
 
             await _dbContext.SaveChangesAsync();
 
-            return Ok("El producto ha sido eliminado correctamente!");
-
+            return Ok("El producto ha sido eliminado correctamente");
         }
     }
 }

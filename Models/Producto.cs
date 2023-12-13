@@ -9,6 +9,7 @@ namespace API_BOCHA_STORE.Models
         public int idProducto { get; set; }
 
         public int idProovedor { get; set; }
+        public int idMarca { get; set; }
 
         [Required]
         public string nombreProducto { get; set; }

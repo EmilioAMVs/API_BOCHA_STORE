@@ -34,6 +34,7 @@ namespace API_BOCHA_STORE.Data
                     idProducto = 1,
                     nombreProducto = "Camiseta Negra",
                     idProovedor = 1, 
+                    idMarca =1,
                     descripcionProducto = "Camiseta Oversized",
                     precio = 19.99,
                     fechaCreacion = DateTime.Parse("2023-12-11")
@@ -43,6 +44,7 @@ namespace API_BOCHA_STORE.Data
                     idProducto = 2,
                     nombreProducto = "Pantalon Negro",
                     idProovedor = 2,
+                    idMarca =2,
                     descripcionProducto = "Pantalon Deportivo",
                     precio = 15.99,
                     fechaCreacion = DateTime.Parse("2023-12-11")

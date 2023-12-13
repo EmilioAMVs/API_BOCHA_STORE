@@ -61,7 +61,7 @@ namespace API_BOCHA_STORE.Controllers
                 .Where(m => m.idProovedor== idProovedor)
                 .ToListAsync();
 
-            // Si todo está bien, devolver la lista de miembros
+            // Si todo está bien, devolver la lista de productos
             return productos.Count > 0 ? Ok(productos) : BadRequest("No existen productos asociados al proovedor consultado");
         }
 
